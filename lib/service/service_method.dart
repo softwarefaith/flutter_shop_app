@@ -5,6 +5,52 @@ import 'dart:io';
 import '../config/service_url.dart';
 
 
+
+
+
+Future  httpRequest(urlKey,{formData}) async {
+
+  try{
+
+
+
+
+    Response response;
+
+    Dio dio = new Dio();
+
+    dio.options.contentType = ContentType.parse(
+        "application/x-www-form-urlencoded"
+    );
+
+
+    var path = servicePath[urlKey];
+
+    print('request begin ===>${path}');
+
+    if(formData != null) {
+      response = await  dio.post(path,data: formData);
+    } else {
+      response = await  dio.post(path);
+    }
+
+
+
+    if(response.statusCode==200){
+      return response.data;
+    } else {
+      throw Exception("service error......");
+    }
+
+  }catch(e){
+    print('getHomePageContent ERROR:======>${e}');
+  }
+
+
+}
+
+
+
 Future getHomePageContent() async {
 
   try{
