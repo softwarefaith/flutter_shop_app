@@ -11,6 +11,8 @@ import '../config/service_url.dart';
 
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
+import '../routers/Applicaion.dart';
+
 //class HomePage extends StatelessWidget {
 ////
 ////
@@ -94,26 +96,7 @@ class _HomePageState extends State<HomePage>
             List<Map> floor3 = (dataMap['floor3'] as List).cast(); //楼层1商品和图片
 
             print("swipDataList====>" + swipDataList.toString());
-//
-//            return  SingleChildScrollView(
-//              child:Column(
-//                children: <Widget>[
-////                Text("首页"),
-//                  SwiperDiy(swiperDataList: swipDataList),
-//                  TopNavigator(navigatorList:navigatorList),
-//                  AdBanner(advertesPicture:advertesPicture),   //广告组件
-//                  LeaderPhone(leaderImage:leaderImage,leaderPhone: leaderPhone),  //广告组件
-//                  Recommend(recommendList:recommendList),
-//
-//                  Floor(floorTitle: floor1Title,floorContents: floor1),
-//                  Floor(floorTitle: floor2Title,floorContents: floor2),
-//                  Floor(floorTitle: floor3Title,floorContents: floor3),
-//                  _hotGoods(),
-//                ],
-//
-//
-//              )
-//            );
+
             return EasyRefresh(
               refreshFooter: ClassicsFooter(
                   key:_footerKey,
@@ -215,7 +198,8 @@ class _HomePageState extends State<HomePage>
       List<Widget> listWidget = hotGoodsList.map((val) {
         return InkWell(
           onTap: () {
-            print("爆款点击");
+
+            Application.router.navigateTo(context,"/detail?id=${val['goodsId']}");
           },
           child: Container(
             width: 160,

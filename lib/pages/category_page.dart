@@ -19,20 +19,23 @@ class  ChildCategoryProvider extends ChangeNotifier {
 
   String categoryId = "4";
 
+  String categorySubId = "4";
+
+
 
 
   getChildCategory(List list,String id){
     childIndex = 0;
     childCategoryList=list;
 
-    print("通知发送===>${childCategoryList.toString()}");
+    print("通知发送====>${id}===>${childCategoryList.toString()}");
     notifyListeners();
   }
 
   //改变子类索引
-  changeChildIndex(index){
+  changeChildIndex(index,String subId){
 
-
+    categorySubId = subId;
 
     childIndex=index;
     notifyListeners();
@@ -97,8 +100,8 @@ class _CategoryPageState extends State<CategoryPage> {
 
         providers: [
           Provider<String>.value(value: test), //用于数据传递...
-          ChangeNotifierProvider<ChildCategoryProvider>(builder: (_) => ChildCategoryProvider(),child: Text("Child"),),
-          ChangeNotifierProvider<GoodCategoryProvider>(builder: (_) => GoodCategoryProvider(),child: Text(""),),
+          ChangeNotifierProvider<ChildCategoryProvider>(builder: (_) => ChildCategoryProvider()),
+          ChangeNotifierProvider<GoodCategoryProvider>(builder: (_) => GoodCategoryProvider()),
 
         ],
        child: Scaffold(
@@ -207,6 +210,12 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
         Provider.of<ChildCategoryProvider>(context).getChildCategory(childList,id);
 
+        var categoryId= list[index].mallCategoryId;
+
+        List<CategoryBigSubModel> subs = list[index].bxMallSubDto;
+
+        _getGoodList(categoryId: id,categorySubId:subs[0].mallSubId);
+
       });
 
     });
@@ -229,7 +238,10 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
         var categoryId= list[index].mallCategoryId;
 
-        _getGoodList(categoryId:categoryId);
+        List<CategoryBigSubModel> subs = list[index].bxMallSubDto;
+
+
+        _getGoodList(categoryId:categoryId,categorySubId:subs[0].mallSubId);
 
 
       },
@@ -251,10 +263,10 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
   }
 
-   void _getGoodList({String categoryId = '4'})async {
+   void _getGoodList({String categoryId = '4',String categorySubId = ''})async {
      var data={
        'categoryId':categoryId,
-       'categorySubId':"",
+       'categorySubId':categorySubId==null?"":categorySubId,
        'page':1
      };
      await httpRequest(servicePathOfGetMallGoods,formData:data ).then((val){
@@ -347,8 +359,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
      String item = subModel.mallSubName;
      return InkWell(
        onTap: (){
-             print(item);
-             Provider.of<ChildCategoryProvider>(context).changeChildIndex(index);
+         print(item);
+             Provider.of<ChildCategoryProvider>(context).changeChildIndex(index,subModel.mallSubId);
 
              _getGoodList(categorySubId:subModel.mallSubId);
 
@@ -543,7 +555,7 @@ class _GoodsItem extends StatelessWidget {
 
           children: <Widget>[
 
-            Text("${title}",
+            Text("$title",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -553,8 +565,8 @@ class _GoodsItem extends StatelessWidget {
             ),
 
 
-            Text("${price}"),
-            Text("${oriPrice}",
+            Text("$price"),
+            Text("$oriPrice",
                 style: TextStyle(
                 color: Colors.grey, decoration: TextDecoration.lineThrough,
                ),

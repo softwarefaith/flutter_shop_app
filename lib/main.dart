@@ -3,6 +3,10 @@ import 'pages/index_page.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:fluro/fluro.dart';
+import './routers/routes.dart';
+import './routers/Applicaion.dart';
+
 void main() {
   Provider.debugCheckInvalidValueType = null;
   runApp(MyApp());
@@ -10,13 +14,25 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+
+
   @override
   Widget build(BuildContext context) {
+
+    final router = Router();
+    RoutManager.configureRoutes(router);
+    Application.router = router;
+
+
     return Container(
 
       child:  MaterialApp(
         title: 'Flutter 百姓生活 ',
         debugShowCheckedModeBanner: false,
+
+
+
         theme: ThemeData(
           // This is the theme of your application.
           //

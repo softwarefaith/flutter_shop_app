@@ -10,7 +10,9 @@ const servicePathOfCategory ='Category';
 
 const servicePathOfGetMallGoods ='getMallGoods';
 
+//getGoodDetailById
 
+const servicePathOfgetGoodDetailById ='getGoodDetailById';
 
 const servicePath={
   servicePathOfHomePageContext:serviceUrl+'wxmini/homePageContent', // 商家首页信息
@@ -20,4 +22,6 @@ const servicePath={
    servicePathOfCategory:serviceUrl+'wxmini/getCategory',//商品分类
 
   servicePathOfGetMallGoods:serviceUrl+'wxmini/getMallGoods',//商品
+
+  servicePathOfgetGoodDetailById:serviceUrl+'wxmini/getGoodDetailById'
 };
